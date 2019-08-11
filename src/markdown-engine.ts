@@ -1589,6 +1589,7 @@ sidebarTOCBtn.addEventListener('click', function(event) {
   public async htmlExport({
     offline = false,
     runAllCodeChunks = false,
+    outputDirectory = null    // Changed
   }): Promise<string> {
     const inputString = await utility.readFile(this.filePath, {
       encoding: "utf-8",
@@ -1612,7 +1613,22 @@ sidebarTOCBtn.addEventListener('click', function(event) {
       embedSVG = htmlConfig["embed_svg"];
     }
 
-    let dest = this.filePath;
+
+    let dest = this.filePath;     // Changed
+
+    if (outputDirectory){
+      dest  =outputDirectory +"/" +this.filePath
+
+      let dir_path=path.dirname(dest)
+
+      if (!fs.existsSync(dir_path)){
+        utility.mkdirs(dir_path)
+      }
+
+    }
+
+
+
     const extname = path.extname(dest);
     dest = dest.replace(new RegExp(extname + "$"), ".html");
 

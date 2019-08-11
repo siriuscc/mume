@@ -572,6 +572,16 @@ export async function allowUnsafeEvalAndUnsafeNewFunctionAsync(
   }
 }
 
+
+export function mkdirs(dirpath) {
+  if (!fs.existsSync(path.dirname(dirpath))) {
+    mkdirs(path.dirname(dirpath));
+  }
+  fs.mkdirSync(dirpath);
+}
+
+
+
 export const loadDependency = (dependencyPath: string) =>
   allowUnsafeEval(() =>
     allowUnsafeNewFunction(() =>
@@ -582,6 +592,10 @@ export const loadDependency = (dependencyPath: string) =>
       )),
     ),
   );
+
+
+
+
 
 export function Function(...args: string[]) {
   let body = "";
